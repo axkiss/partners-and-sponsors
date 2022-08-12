@@ -33,10 +33,11 @@
                         <label class="form-check-label" for="flexRadioDefault2">
                             Задание 2
                         </label>
+                        <div class="small">(без последнего уровня)</div>
                     </div>
 
 
-                    <div class="pt-3">Статус заказов:</div>
+                    <div class="pt-3">Состояние заказов:</div>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="ok" id="flexCheckOk"
                                {% if request.GET.ok == 'on' %}checked{% endif %}>
@@ -64,121 +65,40 @@
                 <hr>
                 <h5>Затраченное время:</h5>
                 <p>Обработка partners: <br>
-                    <b>0 сек</b> <br>
+                    <b>{{ partners_time|default:"0" }} сек</b> <br>
                     Обработка orders:<br>
-                    <b>0 сек</b> <br>
+                    <b>{{ orders_time|default:"0" }} сек</b> <br>
                     Вычисление суммарного объема:<br>
-                    <b>0 сек</b> </p>
-
+                    <b>{{ calculate_volume_time|default:"0" }} сек</b><br><br>
+                    Итого: <b>{{ final_time|default:"0" }} сек</b></p>
             </div>
         </div>
 
 
         <div class="col-12 col-md-7 col-xl-6 bg-light">
             <div class="pt-3">
+                <table class="table table-sm">
+                    <thead class="sticky-md-top bg-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Myself volume</th>
+                        <th scope="col">Sponsor volume</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for sponsor in sponsors %}
+                        <tr>
+                            <th scope="row">{{ sponsor.0 }}</th>
+                            <td>{{ sponsor.1.myself }}</td>
+                            <td>{{ sponsor.1.sponsorship|default_if_none:"Нет в prtners.csv" }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
 
-                One of two columns<br>One of two columns<br>One of two columns<br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>dddd
-                One of two columns
             </div>
         </div>
     </div>
 </div>
-<form class="d-flex my-4" method="get">
-    <input class="form-control form-control-lg me-2" type="text" placeholder="Search" aria-label="Search"
-           name="q" value="{{ request.GET.q }}" minlength="4">
-    <button class="btn btn-lg btn-outline-primary" type="submit">Search</button>
-</form>
 </body>
 </html>
