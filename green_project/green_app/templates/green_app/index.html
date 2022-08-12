@@ -82,16 +82,16 @@
                     <thead class="sticky-md-top bg-light">
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Myself volume</th>
-                        <th scope="col">Sponsor volume</th>
+                        <th scope="col">Myself volume<br><span class="small text-muted fw-lighter">личные продажи</span></th>
+                        <th scope="col">Partners volume<br><span class="small text-muted fw-lighter">сумма всех объемов по партнерам</span></th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for sponsor in sponsors %}
+                    {% for partner in partners %}
                         <tr>
-                            <th scope="row">{{ sponsor.0 }}</th>
-                            <td>{{ sponsor.1.myself }}</td>
-                            <td>{{ sponsor.1.sponsorship|default_if_none:"Нет в prtners.csv" }}</td>
+                            <th scope="row">{{ partner.0 }}</th>
+                            <td>{{ partner.1.myself }}</td>
+                            <td>{{ partner.1.sponsorship|default_if_none:"Нет в prtners.csv" }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

@@ -57,7 +57,7 @@ class Index(View):
                 'orders_time': round(orders_time, 3),
                 'calculate_volume_time': round(calculate_volume_time, 3),
                 'final_time': round(orders_time + partners_time + calculate_volume_time, 3),
-                'sponsors': partners_volumes_dict.items()
+                'partners': partners_volumes_dict.items()
             }
 
         return render(request, self.template_name, context)
