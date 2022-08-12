@@ -15,9 +15,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+ORDERS_PATH = BASE_DIR / 'input_csv_files' / 'orders.csv'
+PARTNERS_PATH = BASE_DIR / 'input_csv_files' / 'partners.csv'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-qlga7#)f@c+s^ys-qn*53u4+va)$*yh1))bqhn(1+%2#xxd0tz'
