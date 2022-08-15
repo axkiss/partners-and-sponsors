@@ -52,12 +52,24 @@ class Index(View):
                     partners_volumes_dict[partner]['sponsorship'] = round(partners_volumes_dict[partner]['sponsorship'],
                                                                           2)
 
+            raw_number_of_partners = len(partners_volumes_dict)
+
+            # Исключаем партнеров без объемов
+            result_partners_volumes_dict = {k: v for k, v in partners_volumes_dict.items() if
+                                            v['myself'] or v['sponsorship']}
+            # Сортируем по ID
+            result_partners_volumes = sorted(result_partners_volumes_dict.items(), key=lambda x: x[0])
+
+            number_of_hidden_partners = raw_number_of_partners - len(result_partners_volumes)
+
             context = {
                 'partners_time': round(partners_time, 3),
                 'orders_time': round(orders_time, 3),
                 'calculate_volume_time': round(calculate_volume_time, 3),
                 'final_time': round(orders_time + partners_time + calculate_volume_time, 3),
-                'partners': partners_volumes_dict.items()
+                'partners': result_partners_volumes,
+                'number_of_hidden_partners': number_of_hidden_partners,
+                'number_of_partners': len(result_partners_volumes)
             }
 
         return render(request, self.template_name, context)
