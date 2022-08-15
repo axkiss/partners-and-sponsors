@@ -18,22 +18,30 @@ def sum_partners_volumes_form_orders(csv_file_path: str, state_list: list) -> di
 def calculate_volume(sponsor: int, sponsors: dict, partners_volumes: dict, include_last: bool) -> None:
     """Рекурсивный подсчет объема продаж всех партнеров наставника"""
 
-    if sponsor in partners_volumes:
-        if partners_volumes[sponsor]['sponsorship'] is None:
-            partners_volumes[sponsor]['sponsorship'] = .0
-            for partner in sponsors[sponsor]:
-                if partner not in partners_volumes: continue
-                if sponsors[partner]:
-                    calculate_volume(partner, sponsors, partners_volumes, include_last)
-                    partners_volumes[sponsor]['sponsorship'] += partners_volumes[partner]['sponsorship'] + \
-                                                                partners_volumes[partner]['myself']
-                elif include_last:
-                    partners_volumes[sponsor]['sponsorship'] += partners_volumes[partner]['myself']
+    # Если наставник(партнер) отсутствует в orders, то создаем его с нулевым объемом продаж
+    if sponsor not in partners_volumes:
+        partners_volumes[sponsor] = {'myself': .0, 'sponsorship': None}
+
+    # Проверяем, что расчеты за наставничество не были произведены
+    if partners_volumes[sponsor]['sponsorship'] is None:
+        partners_volumes[sponsor]['sponsorship'] = .0
+        for partner in sponsors[sponsor]:
+            if sponsors[partner]:
+                calculate_volume(partner, sponsors, partners_volumes, include_last)
+                partners_volumes[sponsor]['sponsorship'] += partners_volumes[partner]['sponsorship'] + \
+                                                            partners_volumes[partner]['myself']
+            elif include_last and partner in partners_volumes:
+                partners_volumes[sponsor]['sponsorship'] += partners_volumes[partner]['myself']
 
 
 def calculate_sponsors_volume(sponsors: dict, partners_volumes: dict, include_last: bool = True) -> None:
     """Подсчет объема продаж каждого наставника"""
 
     for sponsor in sponsors:
-        if sponsor in partners_volumes and partners_volumes[sponsor]['sponsorship'] is None:
+        # Если наставник(партнер) отсутствует в orders, то создаем его с нулевым объемом продаж
+        if sponsor not in partners_volumes:
+            partners_volumes[sponsor] = {'myself': .0, 'sponsorship': None}
+
+        # Проверяем, что расчеты за наставничество не были произведены
+        if partners_volumes[sponsor]['sponsorship'] is None:
             calculate_volume(sponsor, sponsors, partners_volumes, include_last)
