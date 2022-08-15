@@ -63,6 +63,9 @@
                     <button class="btn btn-outline-primary mt-3 mb-1" type="submit">Рассчитать</button>
 
                 </form>
+                {% if number_of_hidden_partners %}
+                    <span class="small text-small"><b>{{ number_of_hidden_partners }}</b> партнеров скрыто,<br> Myself volume = 0 и Partners volume = 0</span>
+                {% endif %}
                 <hr>
                 <h5>Затраченное время:</h5>
                 <p>Обработка partners: <br>
@@ -81,9 +84,13 @@
                 <table class="table table-sm">
                     <thead class="sticky-md-top bg-light">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Myself volume<br><span class="small text-muted fw-lighter">личные продажи</span></th>
-                        <th scope="col">Partners volume<br><span class="small text-muted fw-lighter">сумма всех объемов по партнерам</span></th>
+                        <th scope="col">
+                            ID<br><span class="small text-muted fw-lighter">{{ number_of_partners|default:"0" }}</span>
+                        </th>
+                        <th scope="col">Myself volume<br><span class="small text-muted fw-lighter">личные продажи</span>
+                        </th>
+                        <th scope="col">Partners volume<br><span class="small text-muted fw-lighter">сумма всех объемов по партнерам</span>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
